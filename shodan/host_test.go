@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"encoding/json"
 )
 
 func TestClient_GetHostsForQuery_DifferentVersionFormats(t *testing.T) {
@@ -17,7 +18,13 @@ func TestClient_GetHostsForQuery_DifferentVersionFormats(t *testing.T) {
 	})
 
 	options := &HostQueryOptions{Query: "argentina"}
-	_, err := client.GetHostsForQuery(options)
+
+	response, err := client.GetHostsForQuery(options)
+	if err != nil {
+		t.Error(err)
+	}
+
+	_, err = json.Marshal(response)
 
 	assert.Nil(t, err)
 }
